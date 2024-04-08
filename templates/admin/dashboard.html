@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Admin Dashboard</title>
+{% endblock %}
+
+{% block style %}
+<style>
+    /* Custom CSS styles */
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0; /* Fallback background color */
+        background-image: url('https://static.tildacdn.com/tild3566-3930-4765-b439-653631343037/laptop-g7584cb106_19.jpg');
+        background-attachment: fixed;
+        background-size: cover;
+        overflow: hidden;
+        user-select: none;
+    }
+
+    .navbar {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .navbar a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 10px;
+    }
+
+    .sidebar {
+        background-color: #3498db; /* Blue background color */
+        color: #fff;
+        padding: 20px;
+        width: 200px;
+        height: 100vh; /* Make the sidebar full height */
+    }
+
+    .sidebar a {
+        display: block;
+        color: #fff;
+        text-decoration: none;
+        margin-bottom: 10px;
+    }
+
+    .content {
+        padding: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<nav class="navbar">
+    <div></div> <!-- This div is for alignment -->
+    <h1>Admin Dashboard</h1>
+    <a href ="{{url_for('admin.logout')}}">Logout</a>
+</nav>
+
+<div class="sidebar">
+    <a href="{{url_for('admin.view_departments')}}">View Departments</a>
+    <a href="{{url_for('admin.view_faculty')}}">View Faculty</a>
+    <a href="{{url_for('admin.view_courses')}}">View Courses</a>
+</div>
+
+<div class="content">
+    <!-- Main content of the page goes here -->
+</div>
+{% endblock %}

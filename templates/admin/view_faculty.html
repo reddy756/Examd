@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>View Faculty</title>
+{% endblock %}
+
+{% block style %}
+<style>
+    /* Custom CSS styles */
+    .faculty-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .faculty-table th,
+    .faculty-table td {
+        padding: 8px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    .faculty-table th {
+        background-color: #f2f2f2;
+    }
+
+    .action-buttons {
+        margin-top: 20px;
+    }
+
+    .action-buttons button {
+        margin-right: 10px;
+    }
+
+    /* Adjust the position of the "Add Faculty" button */
+    .add-faculty-button {
+        margin-top: 40px; /* Increase the margin to move it further down */
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-6 text-right mb-3 add-faculty-button"> <!-- Apply the custom class here -->
+            <a href="{{ url_for('admin.add_faculty') }}" class="btn btn-primary">Add Faculty</a>
+        </div>
+    </div>
+    <h2 class="db">View Faculty</h2>
+    <table class="faculty-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Course</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for faculty in faculty_details %}
+            <tr>
+                <td>{{ faculty.name }}</td>
+                <td>{{ faculty.department_name }}</td>
+                <td>{{ faculty.course_name or 'N/A' }}</td>
+                <td>{{ faculty.email }}</td>
+                <td>{{ faculty.role }}</td>
+                <td>
+                    <a href="{{ url_for('admin.update_faculty', faculty_id=faculty.faculty_id) }}"
+                        class="btn btn-info">Update</a>
+                    <form action="{{ url_for('admin.delete_faculty', faculty_id=faculty.faculty_id) }}" method="post"
+                        style="display: inline;">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

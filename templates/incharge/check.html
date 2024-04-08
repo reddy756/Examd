@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video Player</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f7f7f7;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 640px;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            /* 16:9 Aspect Ratio */
+            height: 0;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .input-group {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .input-group input {
+            padding: 10px;
+            width: 70%;
+            margin-right: 10px;
+        }
+
+        .input-group button {
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/_SOTBCWKlOs" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+        </div>
+        <div class="input-group">
+            <input type="text" id="videoId" placeholder="Enter YouTube Video ID">
+            <button onclick="loadVideo()">Load Video</button>
+        </div>
+    </div>
+
+    <script>
+        function loadVideo() {
+            var videoId = document.getElementById('videoId').value;
+            var iframe = document.querySelector('.video-wrapper iframe');
+            if (videoId) {
+                iframe.src = "https://www.youtube.com/embed/" + videoId;
+            } else {
+                alert('Please enter a YouTube video ID.');
+            }
+        }
+    </script>
+</body>
+
+</html>

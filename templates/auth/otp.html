@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>OTP Verification</title>
+{% endblock %}
+
+{% block style %}
+<style>
+  /* Custom CSS styles */
+  .otp-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  label {
+    font-weight: bold;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="otp-container">
+        <h2>OTP Verification</h2>
+        <form action="{{ url_for('auth.otp', token=token) }}" method="POST">
+          <div class="form-group">
+            <label for="otp">Enter OTP:</label>
+            <input type="text" class="form-control" id="otp" name="otp" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Verify OTP</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

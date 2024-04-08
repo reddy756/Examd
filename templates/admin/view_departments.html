@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>View Departments</title>
+{% endblock %}
+
+{% block style %}
+<style>
+    /* Custom CSS styles */
+    .department-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .department-table th,
+    .department-table td {
+        padding: 8px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    .department-table th {
+        background-color: #f2f2f2;
+    }
+
+    .action-buttons {
+        margin-top: 20px;
+    }
+
+    .action-buttons button {
+        margin-right: 10px;
+    }
+
+    /* Custom styles for positioning */
+    .add-department-button {
+        text-align: right;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>View Departments</h2>
+    <div class="add-department-button">
+        <a href="{{ url_for('admin.add_departments') }}" class="btn btn-primary">Add Department</a>
+    </div>
+    <div class="action-buttons">
+        <!-- <a href="#" class="btn btn-success">Update Department</a>
+        <a href="#" class="btn btn-danger">Delete Department</a> -->
+    </div>
+    <table class="department-table">
+        <thead>
+            <tr>
+                <th>Department ID</th>
+                <th>Department Name</th>
+                <th>Incharge</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for department in departments_details %}
+            <tr>
+                <td>{{ department.department_id }}</td>
+                <td>{{ department.department_name }}</td>
+                <td>{{ department.incharge_name or 'N/A' }}</td>
+                <td>
+                    <a href="{{ url_for('admin.update_department', dept_id=department.department_id) }}"
+                        class="btn btn-info">Update</a>
+                    <form action="{{ url_for('admin.delete_department', dept_id=department.department_id) }}"
+                        method="post" style="display: inline;">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

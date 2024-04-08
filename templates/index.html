@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Guntur Engineering College</title>
+{% endblock %}
+
+{% block style %}
+<style>
+   body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-image: url('https://t3.ftcdn.net/jpg/02/18/88/28/360_F_218882840_J6OZff4ugrSfwq3OzakFYsg8lk0dS0Zb.jpg'); /* Replace 'background_image.jpg' with the path to your background image */
+    background-size:cover;
+    background-attachment: fixed;
+    user-select: none;
+    
+}
+
+.container {
+    position: relative; /* Set the container to a relative position */
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 50px 20px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 3em;
+    margin-bottom: 30px;
+    color: rgb(220, 20, 177);
+}
+
+.links {
+    position: absolute; /* Set the links to absolute position */
+    top: 20px; /* Adjust the top position */
+    right: 20px; /* Adjust the right position */
+}
+
+.links a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1.2em;
+    margin: 0 10px;
+    padding: 10px 20px;
+    border: 2px solid #333;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.links a:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Automation Invigilation </h1>
+</div>
+<div class="links">
+    <a href='{{url_for("auth.signup")}}'>Signup</a>
+    <a href='{{url_for("auth.login")}}'>Login</a>
+</div>
+{% endblock %}

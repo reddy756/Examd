@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Update Faculty</title>
+{% endblock %}
+
+{% block style %}
+<style>
+    /* Custom CSS styles */
+    .faculty-form-container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+    .btn{
+        border-radius: 5px; 
+        
+        background-color: blue;
+        color:#f9f9f9
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="faculty-form-container">
+        <h2>Update Faculty</h2>
+        <form action="{{ url_for('admin.update_faculty', faculty_id=faculty_details.faculty_id) }}" method="POST">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ faculty_details.name }}"
+                    required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ faculty_details.email }}"
+                    required>
+            </div>
+            <div class="form-group">
+                <label for="role">Role:</label>
+                <select class="form-control" id="role" name="role" required>
+                    <option value="Faculty" {% if faculty_details.role=='Faculty' %} selected {% endif %}>Faculty
+                    </option>
+                    <option value="Department Incharge" {% if faculty_details.role=='Department Incharge' %} selected {%
+                        endif %}>Department Incharge</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="department_id">Department:</label>
+                <select class="form-control" id="department_id" name="department_id" onchange="fetchCourses(this.value)"
+                    required>
+                    <option value="" disabled {% if faculty_details.department_id is none %} selected {% endif %}>Select
+                        Department</option>
+                    {% for department in departments %}
+                    <option value="{{ department.department_id }}" {% if
+                        faculty_details.department_id==department.department_id %} selected {% endif %}>
+                        {{ department.department_name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="course_id">Course:</label>
+                <select class="form-control" id="course_id" name="course_id"
+                    data-selected-course="{{ faculty_details.course_id }}" required>
+                    <option value="" disabled selected>Select Course</option>
+                    <!-- Course options will be dynamically populated -->
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Faculty</button>
+            <a href="{{ url_for('admin.view_faculty') }}" class="btn">Back</a>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var departmentDropdown = document.getElementById('department_id');
+        var courseDropdown = document.getElementById('course_id');
+        var selectedCourse = courseDropdown.getAttribute('data-selected-course');
+
+        function fetchCourses(deptId) {
+            if (!deptId) {
+                courseDropdown.innerHTML = '<option value="" disabled selected>Select Course</option>';
+                return;
+            }
+
+            fetch('/admin/dept_course/' + deptId)
+                .then(response => response.json())
+                .then(courses => {
+                    courseDropdown.innerHTML = '<option value="" disabled>Select Course</option>';
+
+                    courses.forEach(course => {
+                        var option = document.createElement('option');
+                        option.value = course.course_id;
+                        option.textContent = course.course_name;
+                        courseDropdown.appendChild(option);
+                    });
+
+                    // After populating, try to set the selected value
+                    courseDropdown.value = selectedCourse;
+
+                    // If no course is selected, show the default 'Select Course' option
+                    if (!courseDropdown.value) {
+                        courseDropdown.value = "";
+                    }
+                })
+                .catch(error => console.error('Error fetching courses:', error));
+        }
+
+        // Initialize courses based on the selected department when the page loads
+        if (departmentDropdown.value) {
+            fetchCourses(departmentDropdown.value);
+        }
+
+        // Update courses when a new department is selected
+        departmentDropdown.addEventListener('change', function () {
+            fetchCourses(this.value);
+        });
+    });
+</script>
+
+{% endblock %}

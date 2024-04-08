@@ -1,0 +1,50 @@
+/* styles.css */
+
+body {
+    height: 100vh;
+    overflow: hidden;
+}
+
+.container {
+    margin: 5%;
+    position: absolute;
+    top: 10%;
+    left: 1%;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 10px 5px 18px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+}
+
+#heading {
+    text-align: center;
+    text-decoration: underline;
+    text-decoration-color: blue;
+}
+
+#submit-button {
+    border-radius: 10px;
+    position: relative;
+    left: 40%;
+    margin-bottom: 10px;
+}
+
+#submit-button:hover {
+    transform: scale(1.1);
+    border-radius: 10px;
+}

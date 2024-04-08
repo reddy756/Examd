@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Add Faculty</title>
+{% endblock %}
+
+{% block style %}
+<style>
+    /* Custom CSS styles */
+    .faculty-form-container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+    .btn{
+        background-color: blue;
+        color:#ffffff;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="faculty-form-container">
+        <h2>Add Faculty</h2>
+        <form action="{{ url_for('admin.add_faculty') }}" method="POST">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="role">Role:</label>
+                <select class="form-control" id="role" name="role" required>
+                    <option value="Faculty">Faculty</option>
+                    <option value="Department Incharge">Department Incharge</option>
+                </select>
+            </div>
+            <div class="form-group" id="department_container">
+                <label for="department">Department:</label>
+                <select class="form-control" id="department" name="department_id" onchange="fetchCourses(this.value)">
+                    <option value="" selected disabled>Select Department</option>
+                    {% for department in departments %}
+                    <option value="{{ department.department_id }}">{{ department.department_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group" id="course_container">
+                <label for="Course">Course:</label>
+                <select class="form-control" id="course" name="course_id">
+                    <option value="" selected disabled>Select Course</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Faculty</button>
+            <a class="btn" href="{{url_for('admin.view_faculty')}}">Back</a>
+        </form>
+    </div>
+</div>
+<script>
+        function fetchCourses(deptId) {
+        if (!deptId) return;
+
+        fetch(`/admin/dept_course/${deptId}`)
+            .then(response => response.json())
+            .then(courses => {
+                const courseSelect = document.getElementById('course');
+                courseSelect.innerHTML = '<option value="" disabled selected>Select Course</option>';  // Clear existing options
+                courses.forEach(course => {
+                    const option = document.createElement('option');
+                    option.value = course.course_id;
+                    option.textContent = course.course_name;
+                    courseSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching courses:', error));
+    }
+</script>
+{% endblock %}

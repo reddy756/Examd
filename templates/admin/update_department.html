@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Update Department</title>
+{% endblock %}
+
+{% block style %}
+<style>
+    /* Custom CSS styles */
+    .form-container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+    .btn{
+        background-color: blue;
+        color:#ffffff;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="form-container">
+        <h2>Update Department</h2>
+        <form action="{{ url_for('admin.update_department', dept_id=dept_details.department_id) }}" method="POST">
+            <div class="form-group">
+                <label for="dept_name">Department Name:</label>
+                <input type="text" class="form-control" id="dept_name" name="dept_name"
+                    value="{{ dept_details.department_name }}" required>
+            </div>
+            <div class="form-group">
+                <label for="incharge_id">Department Incharge:</label>
+                <select class="form-control" id="incharge_id" name="incharge_id">
+                    <option value="">No Incharge</option>
+                    {% for faculty in faculty %}
+                    <option value="{{ faculty.user_id }}" {% if faculty.user_id==dept_details.incharge_user_id %}
+                        selected {% endif %}>{{ faculty.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Department</button>
+            <a href="{{ url_for('admin.view_departments') }}" class="btn">Back</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
